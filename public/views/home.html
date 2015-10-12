@@ -1,0 +1,134 @@
+<form name="searchForm">
+    <md-card>
+        <md-card-content>
+            <h2 class="md-title">Search Flight</h2>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Round Way Trip">
+
+                    <div layout="row" layout-margin>
+                        <div flex="50">
+                            <h3>From</h3>
+                            <div ng-controller="homeController as ctrl">
+                                <md-autocomplete flex required
+                                                 md-search-text-change="ctrl.searchTextChange(ctrl.fromAirport)"
+                                                 md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                 md-input-name="from"
+                                                 md-input-minlength="2"
+                                                 md-input-maxlength="70"
+                                                 md-selected-item="ctrl.selectedItem"
+                                                 md-search-text="ctrl.fromAirport"
+                                                 md-items="item in ctrl.states | filter: ctrl.fromAirport"
+                                                 md-item-text="item.name"
+                                                 md-floating-label="From Airport">
+                                    <md-item-template>
+                                        <span md-highlight-text="ctrl.fromAirport">{{item.name}}</span>
+                                    </md-item-template>
+                                    <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                        <div ng-message="required">You <b>must</b> have to select.</div>
+                                        <div ng-message="minlength">Your entry is not long enough.</div>
+                                        <div ng-message="maxlength">Your entry is too long.</div>
+                                    </div>
+                                </md-autocomplete>
+                            </div>
+
+                            <md-datepicker ng-model="journeyDate" md-placeholder="Enter journey date"  md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+                        </div>
+                        <div flex="50">
+                            <h3>To </h3>
+                            <div ng-controller="homeController as ctrl">
+                                <md-autocomplete flex required
+                                                 md-search-text-change="ctrl.searchTextChange(ctrl.fromAirport)"
+                                                 md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                 md-input-name="to"
+                                                 md-input-minlength="2"
+                                                 md-input-maxlength="70"
+                                                 md-selected-item="ctrl.selectedItem"
+                                                 md-search-text="ctrl.toAirport"
+                                                 md-items="item in ctrl.states | filter: ctrl.toAirport"
+                                                 md-item-text="item.name"
+                                                 md-floating-label="To Airport">
+                                    <md-item-template>
+                                        <span md-highlight-text="ctrl.toAirport">{{item.name}}</span>
+                                    </md-item-template>
+                                    <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                        <div ng-message="required">You <b>must</b> have to select.</div>
+                                        <div ng-message="minlength">Your entry is not long enough.</div>
+                                        <div ng-message="maxlength">Your entry is too long.</div>
+                                    </div>
+                                </md-autocomplete>
+                            </div>
+                            <md-datepicker ng-model="returnDate" md-placeholder="Enter return date"  md-min-date="minRetDate" md-max-date="maxRetDate"></md-datepicker>
+                        </div>
+                    </div>
+
+
+                </md-tab>
+                <md-tab label="One Way Trip">
+                    <div layout="row" layout-margin>
+                        <div flex="50">
+                            <h3>From</h3>
+                            <div ng-controller="homeController as ctrl">
+                                <md-autocomplete flex required
+                                                 md-search-text-change="ctrl.searchTextChange(ctrl.fromAirport)"
+                                                 md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                 md-input-name="from"
+                                                 md-input-minlength="2"
+                                                 md-input-maxlength="70"
+                                                 md-selected-item="ctrl.selectedItem"
+                                                 md-search-text="ctrl.fromAirport"
+                                                 md-items="item in ctrl.states | filter: ctrl.fromAirport"
+                                                 md-item-text="item.name"
+                                                 md-floating-label="From Airport">
+                                    <md-item-template>
+                                        <span md-highlight-text="ctrl.fromAirport">{{item.name}}</span>
+                                    </md-item-template>
+                                    <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                        <div ng-message="required">You <b>must</b> have to select.</div>
+                                        <div ng-message="minlength">Your entry is not long enough.</div>
+                                        <div ng-message="maxlength">Your entry is too long.</div>
+                                    </div>
+                                </md-autocomplete>
+                            </div>
+
+
+                        </div>
+                        <div flex="50">
+                            <h3>To </h3>
+                            <div ng-controller="homeController as ctrl">
+                                <md-autocomplete flex required
+                                                 md-search-text-change="ctrl.searchTextChange(ctrl.fromAirport)"
+                                                 md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                 md-input-name="to"
+                                                 md-input-minlength="2"
+                                                 md-input-maxlength="70"
+                                                 md-selected-item="ctrl.selectedItem"
+                                                 md-search-text="ctrl.toAirport"
+                                                 md-items="item in ctrl.states | filter: ctrl.toAirport"
+                                                 md-item-text="item.name"
+                                                 md-floating-label="To Airport">
+                                    <md-item-template>
+                                        <span md-highlight-text="ctrl.toAirport">{{item.name}}</span>
+                                    </md-item-template>
+                                    <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                        <div ng-message="required">You <b>must</b> have to select.</div>
+                                        <div ng-message="minlength">Your entry is not long enough.</div>
+                                        <div ng-message="maxlength">Your entry is too long.</div>
+                                    </div>
+                                </md-autocomplete>
+                            </div>
+
+                        </div>
+                        <div flex="100">
+                            <!--<md-datepicker ng-model="oneWayjourneyDate" md-placeholder="Enter journey date"  md-min-date="oneWayMinDate" md-max-date="oneWayMaxDate"></md-datepicker>-->
+                        </div>
+                    </div>
+
+                </md-tab>
+
+            </md-tabs>
+        </md-card-content>
+        <div class="md-actions" layout="row" layout-align="end center">
+            <md-button class="md-raised md-primary" ng-click="submit()">Search</md-button>
+        </div>
+    </md-card>
+</form>

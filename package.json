@@ -1,0 +1,11 @@
+{
+  "name": "Flight_Search",
+  "version": "0.1.0",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "bourne": "^0.4.0",
+    "crypto": "0.0.3",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3"
+  }
+}
