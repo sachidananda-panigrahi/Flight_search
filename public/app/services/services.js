@@ -10,11 +10,7 @@ app.service('InitService', ['$q', function ($q) {
     this.selected = [];
 
     this.setSelected = function(data){
-        if(this.selected.length < 2){
-            this.selected.push(data);
-        }else{
-            this.selected = [];
-        }
+        this.selected.push(data);
     };
     this.getSelected = function(){
         return this.selected;

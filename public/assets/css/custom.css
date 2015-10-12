@@ -4,3 +4,12 @@
     max-width: 100%;
     width: 320px;
 }
+.searchForm{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    align-items: center;
+}
+.home-search-card{
+    width: 50%;
+}
