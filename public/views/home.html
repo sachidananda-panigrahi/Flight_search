@@ -9,20 +9,20 @@
                         <div flex="50">
                             <h3>From</h3>
 
-                            <div ng-controller="homeController as ctrl">
+                            <div>
                                 <md-autocomplete flex required
-                                                 md-search-text-change="ctrl.searchTextChange(ctrl.fromAirport)"
-                                                 md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                 md-search-text-change="searchTextChangeFrom(fromAirport)"
+                                                 md-selected-item-change="selectedItemChangeFrom(item)"
                                                  md-input-name="from"
                                                  md-input-minlength="2"
                                                  md-input-maxlength="70"
-                                                 md-selected-item="ctrl.selectedItem"
-                                                 md-search-text="ctrl.fromAirport"
-                                                 md-items="item in ctrl.states | filter: ctrl.fromAirport"
+                                                 md-selected-item="selectedFrom"
+                                                 md-search-text="fromAirport"
+                                                 md-items="item in fromStates | filter: fromAirport"
                                                  md-item-text="item.name"
                                                  md-floating-label="From Airport">
                                     <md-item-template>
-                                        <span md-highlight-text="ctrl.fromAirport">{{item.name}}</span>
+                                        <span md-highlight-text="fromAirport">{{item.name}}</span>
                                     </md-item-template>
                                     <div ng-messages="searchForm.autocompleteField.$error"
                                          ng-if="searchForm.autocompleteField.$touched">
@@ -40,20 +40,20 @@
                         <div flex="50">
                             <h3>To </h3>
 
-                            <div ng-controller="homeController as ctrl">
+                            <div>
                                 <md-autocomplete flex required
-                                                 md-search-text-change="ctrl.searchTextChange(ctrl.fromAirport)"
-                                                 md-selected-item-change="ctrl.selectedItemChange(item)"
+                                                 md-search-text-change="searchTextChangeTo(fromAirport)"
+                                                 md-selected-item-change="selectedItemChangeTo(item)"
                                                  md-input-name="to"
                                                  md-input-minlength="2"
                                                  md-input-maxlength="70"
-                                                 md-selected-item="ctrl.selectedItem"
-                                                 md-search-text="ctrl.toAirport"
-                                                 md-items="item in ctrl.states | filter: ctrl.toAirport"
+                                                 md-selected-item="selectedTo"
+                                                 md-search-text="toAirport"
+                                                 md-items="item in toStates | filter: toAirport"
                                                  md-item-text="item.name"
                                                  md-floating-label="To Airport">
                                     <md-item-template>
-                                        <span md-highlight-text="ctrl.toAirport">{{item.name}}</span>
+                                        <span md-highlight-text="toAirport">{{item.name}}</span>
                                     </md-item-template>
                                     <div ng-messages="searchForm.autocompleteField.$error"
                                          ng-if="searchForm.autocompleteField.$touched">

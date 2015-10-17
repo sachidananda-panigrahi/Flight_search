@@ -1,6 +1,13 @@
 var app = angular.module('flightApp', ['ngMaterial', 'ngRoute', 'ngResource', 'ngMessages']);
 
-app.config(function ($routeProvider, $locationProvider) {
+app.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
+
+    $mdThemingProvider.theme('default')
+        .primaryPalette('light-blue')
+        .accentPalette('pink')
+        .warnPalette('red')
+        .backgroundPalette('grey');
+
     $routeProvider
         .when('/home', {
             controller: 'homeController',
@@ -11,7 +18,7 @@ app.config(function ($routeProvider, $locationProvider) {
                 }]
             }
         })
-        .when('/search',{
+        .when('/search', {
             controller: 'searchController',
             templateUrl: 'views/search.html'
         })
@@ -23,7 +30,7 @@ app.config(function ($routeProvider, $locationProvider) {
     .value('allCities', [])
     .run(function (allCities, $rootScope, $timeout, $cities, InitService) {
         $cities.get().success(function (data) {
-            console.log(data);
+//            console.log(data);
             allCities.push(data);
             InitService.defer.resolve();
         })
