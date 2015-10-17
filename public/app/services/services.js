@@ -15,4 +15,24 @@ app.service('InitService', ['$q', function ($q) {
     this.getSelected = function(){
         return this.selected;
     };
+}).service('$storeSearchAirports', function(){
+    this.searchedList = [];
+
+    this.setSearchedList = function(data){
+        if(window.localStorage){
+            localStorage.setItem('searchedList', JSON.stringify(data));
+        }else{
+
+        }
+    };
+    this.getSearchedList = function(){
+        if(window.localStorage){
+                console.log(localStorage.getItem('searchedList'))
+            return JSON.parse(localStorage.getItem('searchedList'));
+        }else{
+
+        }
+    };
+
+
 });

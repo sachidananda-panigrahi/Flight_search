@@ -4,9 +4,10 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         $mdSidenav(menuId).toggle();
     };
 })
-    .controller('homeController', function ($scope, $rootScope, $location, $timeout, $q, allCities, $selectedAirport) {
+    .controller('homeController', function ($scope, $rootScope, $location, $timeout, $q, allCities, $selectedAirport, $storeSearchAirports) {
 
-        var self = this;
+        var self = this,
+            searchListArr = [];
         // list of `state` value/display objects
         self.states        = loadAll();
         self.selectedItem  = null;
@@ -21,6 +22,14 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             $selectedAirport.setSelected(item);
             console.log('Item changed to ' + JSON.stringify(item));
             console.log($selectedAirport.getSelected());
+        }
+
+        searchListArr = $storeSearchAirports.getSearchedList();
+        if(searchListArr != null){
+            if(searchListArr.length > 0){
+                console.log(searchListArr);
+                //$scope.item.name = searchListArr[0];
+            }
         }
 
 
@@ -89,7 +98,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             $location.url('/search');
         }
 
-    }).controller('searchController', function($scope, $rootScope, $location, $timeout, $q, $mdSidenav, allCities, $selectedAirport,$interval){
+    }).controller('searchController', function($scope, $rootScope, $location, $timeout, $q, $mdSidenav, allCities, $selectedAirport,$interval, $storeSearchAirports){
         var self = this, j= 0, counter = 0;
         self.mode = 'query';
         self.activated = true;
@@ -101,6 +110,9 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         };
 
         $scope.airports = $selectedAirport.getSelected();
+
+        $storeSearchAirports.setSearchedList($selectedAirport.getSelected());
+
         if($scope.airports.length == 0){
             //$location.url('/home');
         }
