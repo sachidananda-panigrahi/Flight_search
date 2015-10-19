@@ -14,7 +14,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         $scope.searchTextFrom = null;
         $scope.searchTextTo = null;
         $scope.fromAirport = "dasdas";
-        $scope.toAirport = null;
+        $scope.toAirport = "ti";
         $scope.selectedItemChangeFrom = selectedItemChangeFrom;
         $scope.searchTextChangeFrom = searchTextChangeFrom;
         $scope.selectedItemChangeTo = selectedItemChangeTo;
@@ -110,6 +110,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
 
         $scope.submit = function () {
+
             $location.url('/search');
         }
 
