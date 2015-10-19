@@ -10,8 +10,8 @@
                                 <h3>From</h3>
 
 
-                                <!--<div ng-include="'views/from-airport-autocomplete.html'"></div>-->
-                                <from-airport form-name="flightBookForm"></from-airport>
+                                <!--<div ng-include="'views/airport-autocomplete.html'"></div>-->
+                                <from-airport form-name="flightBookForm" input-name="twoWayFromAirport"></from-airport>
 
                                 <md-datepicker ng-change="dateChange()" ng-model="journeyDate"
                                                md-placeholder="Enter journey date" md-min-date="minDate"
@@ -20,7 +20,7 @@
                             <div flex="50">
                                 <h3>To </h3>
 
-                                <div ng-include="'views/to-airport-autocomplete.html'"></div>
+                                <from-airport form-name="flightBookForm" input-name="twoWayToAirport"></from-airport>
                                 <md-datepicker ng-model="returnDate" md-placeholder="Enter return date"
                                                md-min-date="minRetDate" md-max-date="maxRetDate"></md-datepicker>
                             </div>
@@ -37,7 +37,7 @@
                             <div flex="50">
                                 <h3>From</h3>
 
-                                <!--<div ng-include="'views/from-airport-autocomplete.html'"></div>-->
+                                <!--<div ng-include="'views/airport-autocomplete.html'"></div>-->
                                 <p style="text-align: right">Journey date</p>
 
                             </div>

@@ -1,11 +1,11 @@
 app.directive('fromAirport', function (allCities, $selectedAirport, $storeSearchAirports) {
     return {
         restrict: 'EA',
-        templateUrl: 'views/from-airport-autocomplete.html',
+        templateUrl: 'views/airport-autocomplete.html',
         scope: {
-            formName:'@'
+            formName: '=',
+            inputName: '='
         },
-        require: '^form',
         link: function ($scope, element, attr, form) {
             var self = this,
                 searchListArr = [];
