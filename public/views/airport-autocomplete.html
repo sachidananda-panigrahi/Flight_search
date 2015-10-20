@@ -1,20 +1,19 @@
 <div>
     <md-autocomplete flex required
-                     md-search-text-change="searchTextChangeFrom(fromAirport)"
+                     md-search-text-change="searchtextChangeFrom(searchtext)"
                      md-selected-item-change="selectedItemChangeFrom(item)"
-                     md-input-name="inputName"
+                     md-input-name="formfieldname"
                      md-input-minlength="2"
                      md-input-maxlength="70"
-                     md-selected-item="selectedFrom"
-                     md-search-text="fromAirport"
-                     md-items="item in fromStates | filter: fromAirport"
+                     md-selected-item="selecteditem"
+                     md-search-text="searchtext"
+                     md-items="item in fromStates | filter: searchtext"
                      md-item-text="item.name"
                      md-floating-label="From Airport">
         <md-item-template>
-            <span md-highlight-text="fromAirport">{{item.name}}</span>
+            <span md-highlight-text="searchtext">{{item.name}}</span>
         </md-item-template>
-        <div ng-messages="formName.inputName.$error"
-             ng-show='formName.inputName.$dirty && formName.inputName.$invalid'>
+        <div ng-messages="formname.$name.formfieldname.$error" ng-if="formname.$name.formfieldname.$touched">
             <div ng-message="required">You <b>must</b> have to select a Airport.</div>
             <div ng-message="minlength">Your entry is not long enough.</div>
             <div ng-message="maxlength">Your entry is too long.</div>

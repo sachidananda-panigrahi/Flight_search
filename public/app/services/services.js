@@ -8,9 +8,27 @@ app.service('InitService', ['$q', function ($q) {
     };
 }]).service('$selectedAirport', function(){
     this.selected = [];
+    this.counter = 0;
+    this.index = 0;
 
     this.setSelected = function(data){
-        this.selected.push(data);
+        if(this.selected.length == 0){
+            this.selected.push(data);
+        }else{
+            for(var index=0; index < this.selected.length; index++){
+                if(JSON.stringify(this.selected[index]) === JSON.stringify(data)){
+                    console.log("inside true");
+                    this.counter ++;
+                    this.index = index;
+                    break
+                }
+            }
+            if(this.counter){
+                this.selected[this.index] = data;
+            }else{
+                this.selected.push(data);
+            }
+        }
     };
     this.getSelected = function(){
         return this.selected;
@@ -27,7 +45,7 @@ app.service('InitService', ['$q', function ($q) {
     };
     this.getSearchedList = function(){
         if(window.localStorage){
-                console.log(localStorage.getItem('searchedList'))
+                console.log(localStorage.getItem('searchedList'));
             return JSON.parse(localStorage.getItem('searchedList'));
         }else{
 

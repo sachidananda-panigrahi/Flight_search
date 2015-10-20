@@ -11,7 +11,7 @@
 
 
                                 <!--<div ng-include="'views/airport-autocomplete.html'"></div>-->
-                                <from-airport form-name="flightBookForm" input-name="twoWayFromAirport"></from-airport>
+                                <from-airport formname="flightBookForm", formfieldname="twoWayFromAirport", selecteditem="selectedFrom" searchtext="fromAirport"></from-airport>
 
                                 <md-datepicker ng-change="dateChange()" ng-model="journeyDate"
                                                md-placeholder="Enter journey date" md-min-date="minDate"
@@ -20,7 +20,8 @@
                             <div flex="50">
                                 <h3>To </h3>
 
-                                <from-airport form-name="flightBookForm" input-name="twoWayToAirport"></from-airport>
+                                <from-airport formname="flightBookForm", formfieldname="twoWayToAirport", selecteditem="selectedTo" searchtext="toAirport"></from-airport>
+
                                 <md-datepicker ng-model="returnDate" md-placeholder="Enter return date"
                                                md-min-date="minRetDate" md-max-date="maxRetDate"></md-datepicker>
                             </div>
