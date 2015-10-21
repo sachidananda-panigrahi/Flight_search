@@ -45,7 +45,6 @@ app.service('InitService', ['$q', function ($q) {
     };
     this.getSearchedList = function(){
         if(window.localStorage){
-                console.log(localStorage.getItem('searchedList'));
             return JSON.parse(localStorage.getItem('searchedList'));
         }else{
 

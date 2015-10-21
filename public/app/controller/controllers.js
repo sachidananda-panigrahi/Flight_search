@@ -8,8 +8,8 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             searchListArr = [];
 
 
-        $scope.fromAirport = "dasdas";
-        $scope.toAirport = "ti";
+        $scope.fromAirport = null;
+        $scope.toAirport = null;
 
 
         searchListArr = $storeSearchAirports.getSearchedList();
@@ -17,7 +17,8 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             if (searchListArr.length > 0) {
                 console.log("searchListArr");
                 console.log(searchListArr);
-                //$scope.item.name = searchListArr[0];
+                $scope.fromAirport = searchListArr[0].twoWayFromAirport.name;
+                $scope.toAirport = searchListArr[1].twoWayToAirport.name;
             }
         }
 
@@ -100,9 +101,8 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         };
 
         $scope.airports = airportList;
-
-        for (var index = 0; index < airportList.length; index++) {
-            $storeSearchAirports.setSearchedList(airportList[index]);
+        if(airportList.length > 0){
+            $storeSearchAirports.setSearchedList(airportList);
         }
 
         if ($scope.airports.length == 0) {
@@ -121,6 +121,4 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             if (j == 2) self.contained = "indeterminate";
         }, 100, 0, true);
 
-
-        console.log($scope.airports[0]);
     });
