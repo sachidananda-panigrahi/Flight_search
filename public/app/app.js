@@ -1,13 +1,20 @@
-var app = angular.module('flightApp', ['ngMaterial', 'ngRoute', 'ngResource', 'ngMessages']);
+'use strict';
+var app = angular.module('flightApp', ['ngMaterial', 'ngRoute', 'ngResource', 'ngMessages', 'LocalStorageModule']);
 
-app.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
+app.config(function ($routeProvider, $locationProvider, $mdThemingProvider, localStorageServiceProvider) {
 
+//    Theme
     $mdThemingProvider.theme('default')
         .primaryPalette('light-blue')
         .accentPalette('pink')
         .warnPalette('red')
         .backgroundPalette('grey');
-
+//    Storage
+    localStorageServiceProvider
+        .setPrefix('flightApp')
+        .setStorageType('localStorage')
+        .setNotify(true, true);
+//    Route
     $routeProvider
         .when('/home', {
             controller: 'homeController',
@@ -30,7 +37,6 @@ app.config(function ($routeProvider, $locationProvider, $mdThemingProvider) {
     .value('allCities', [])
     .run(function (allCities, $rootScope, $timeout, $cities, InitService) {
         $cities.get().success(function (data) {
-//            console.log(data);
             allCities.push(data);
             InitService.defer.resolve();
         })

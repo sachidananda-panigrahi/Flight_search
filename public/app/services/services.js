@@ -1,55 +1,71 @@
-
-var app = angular.module('flightApp');
 app.service('InitService', ['$q', function ($q) {
     var d = $q.defer();
     return {
         defer: d,
         promise: d.promise
     };
-}]).service('$selectedAirport', function(){
+}]).service('$selectedAirport', function ($storeSearchAirports) {
     this.selected = [];
     this.counter = 0;
     this.index = 0;
 
-    this.setSelected = function(data){
-        if(this.selected.length == 0){
+    if ($storeSearchAirports.getSearchedList("searchedList") != null) {
+        this.selected = $storeSearchAirports.getSearchedList("searchedList");
+    }
+
+    this.setSelected = function (data) {
+        this.counter = 0;
+        this.index = 0;
+
+        if (this.selected.length == 0) {
             this.selected.push(data);
-        }else{
-            for(var index=0; index < this.selected.length; index++){
-                if(JSON.stringify(this.selected[index]) === JSON.stringify(data)){
-                    console.log("inside true");
-                    this.counter ++;
-                    this.index = index;
-                    break
+        } else {
+            for (var index = 0; index < this.selected.length; index++) {
+                for (var key in this.selected[index]) {
+                    if (data.hasOwnProperty(key)) {
+                        this.counter++;
+                        this.index = index;
+                        break
+                    }
                 }
             }
-            if(this.counter){
+            if (this.counter) {
                 this.selected[this.index] = data;
-            }else{
+            } else {
                 this.selected.push(data);
             }
         }
     };
-    this.getSelected = function(){
+    this.getSelected = function () {
         return this.selected;
     };
-}).service('$storeSearchAirports', function(){
+}).service('$storeSearchAirports', function (localStorageService) {
     this.searchedList = [];
 
-    this.setSearchedList = function(data){
-        if(window.localStorage){
-            localStorage.setItem('searchedList', JSON.stringify(data));
-        }else{
+    this.setSearchedList = function (key, val) {
+        if (localStorageService.isSupported) {
+            localStorageService.set(key, val);
+        } else {
 
         }
     };
-    this.getSearchedList = function(){
-        if(window.localStorage){
-            return JSON.parse(localStorage.getItem('searchedList'));
-        }else{
+    this.getSearchedList = function (key) {
+        if (localStorageService.isSupported) {
+            return localStorageService.get(key);
+        } else {
 
         }
     };
 
 
+}).service('$getSearchedFlightDetails', function ($http, $q) {
+    var d = $q.defer();
+
+    $http.get('/api/search').success(function (res) {
+        d.resolve(res)
+    }).error(function (err) {
+        d.reject(err);
+    });
+
+    return d.promise;
 });

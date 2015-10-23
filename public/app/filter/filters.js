@@ -1,5 +1,3 @@
-
-var app = angular.module('flightApp');
 app.filter('labelCase', function () {
     return function (input) {
         input = input.replace(/([A-Z])/g, ' $1');

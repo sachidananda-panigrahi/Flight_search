@@ -3,7 +3,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         $mdSidenav(menuId).toggle();
     };
 })
-    .controller('homeController', function ($scope, $rootScope, $location, $timeout, $q, allCities, $selectedAirport, $storeSearchAirports) {
+    .controller('homeController', function ($scope, $rootScope, $location, $timeout, $q, allCities, $selectedAirport, $storeSearchAirports, $cities) {
         var self = this,
             searchListArr = [];
 
@@ -12,13 +12,14 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         $scope.toAirport = null;
 
 
-        searchListArr = $storeSearchAirports.getSearchedList();
+        searchListArr = $storeSearchAirports.getSearchedList("searchedList");
         if (searchListArr != null) {
             if (searchListArr.length > 0) {
-                console.log("searchListArr");
-                console.log(searchListArr);
                 $scope.fromAirport = searchListArr[0].twoWayFromAirport.name;
-                $scope.toAirport = searchListArr[1].twoWayToAirport.name;
+                if(searchListArr.length > 1){
+                    $scope.toAirport = searchListArr[1].twoWayToAirport.name;
+                }
+
             }
         }
 
@@ -86,10 +87,12 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
 
         $scope.submit = function () {
-            $location.url('/search');
+            $cities.post(searchListArr).success(function(res){
+                $location.url('/search');
+            });
         }
 
-    }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, allCities, $selectedAirport, $interval, $storeSearchAirports) {
+    }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, allCities, $selectedAirport, $interval, $storeSearchAirports, $getSearchedFlightDetails) {
         var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected();
 
         self.mode = 'query';
@@ -102,14 +105,18 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
         $scope.airports = airportList;
         if(airportList.length > 0){
-            $storeSearchAirports.setSearchedList(airportList);
+            console.log("airportList before set localstorage");
+            console.log(airportList);
+            $storeSearchAirports.setSearchedList('searchedList',airportList);
         }
 
         if ($scope.airports.length == 0) {
-            $scope.airports = $storeSearchAirports.getSearchedList();
+            $scope.airports = $storeSearchAirports.getSearchedList("searchedList");
             //$location.url('/home');
         }
-
+        $getSearchedFlightDetails.then(function(res){
+            $scope.searchedFlightDetails = res;
+        });
         $interval(function () {
             $scope.determinateValue += 3;
             if ($scope.determinateValue > 110) $scope.determinateValue = -10;

@@ -9,7 +9,7 @@
                      md-search-text="searchtext"
                      md-items="item in fromStates | filter: searchtext"
                      md-item-text="item.name"
-                     md-floating-label="From Airport">
+                     md-floating-label="{{floatinglabel}}">
         <md-item-template>
             <span md-highlight-text="searchtext">{{item.name}}</span>
         </md-item-template>

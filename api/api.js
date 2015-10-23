@@ -3,7 +3,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     airportDB = new Bourne('airports.json'),
     searchFlight = new Bourne('searchFlight.json'),
-    router = express.Router();
+    router = express.Router(),
+    dummyJson = require('dummy-json');
 
 router.use(bodyParser.json())
     .route('/cities')
@@ -12,15 +13,46 @@ router.use(bodyParser.json())
             res.json(data);
         });
     })
-    .put(function (req, res) {
-        searchFlight.insert({}, function(){
+    .post(function (req, res) {
+        searchFlight.find({"twoWayFromAirport": {}}, function (err, data) {
+            console.log(data.length);
+            if (data.length > 0 ) {
+                console.log("inside if update");
+                searchFlight.update({"twoWayFromAirport": {}}, req.body, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        res.json(err);
+                    } else {
+                        res.json(data);
+                    }
+                });
+            } else {
+                console.log("inside else insert");
+                searchFlight.insert(req.body, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        res.json(err);
+                    } else {
+                        res.json(data);
+                    }
+                });
+            }
+        });
 
-        })
     });
 router.use(bodyParser.json())
     .route('/search')
     .get(function (req, res) {
+        var searchedFlightDetails = {};
+        searchFlight.find({}, function (err, data) {
+            if (err) {
+                console.log(err);
+                res.json(err);
+            } else {
 
+                res.json(data);
+            }
+        });
     });
 
 

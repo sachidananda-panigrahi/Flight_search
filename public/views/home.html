@@ -10,8 +10,7 @@
                                 <h3>From</h3>
 
 
-                                <!--<div ng-include="'views/airport-autocomplete.html'"></div>-->
-                                <from-airport formname="flightBookForm", formfieldname="twoWayFromAirport", selecteditem="selectedFrom" searchtext="fromAirport"></from-airport>
+                                <from-airport formname="flightBookForm" formfieldname="twoWayFromAirport" selecteditem="selectedFrom" searchtext="fromAirport" floatinglabel="From Airport"></from-airport>
 
                                 <md-datepicker ng-change="dateChange()" ng-model="journeyDate"
                                                md-placeholder="Enter journey date" md-min-date="minDate"
@@ -20,7 +19,7 @@
                             <div flex="50">
                                 <h3>To </h3>
 
-                                <from-airport formname="flightBookForm", formfieldname="twoWayToAirport", selecteditem="selectedTo" searchtext="toAirport"></from-airport>
+                                <from-airport formname="flightBookForm" formfieldname="twoWayToAirport" selecteditem="selectedTo" searchtext="toAirport" floatinglabel="To Airport"></from-airport>
 
                                 <md-datepicker ng-model="returnDate" md-placeholder="Enter return date"
                                                md-min-date="minRetDate" md-max-date="maxRetDate"></md-datepicker>
@@ -33,19 +32,19 @@
 
                 </md-tab>
                 <md-tab label="One Way Trip">
-                    <form name="flight" ng-submit="submit()">
+                    <form name="oneWayFlightBookForm" ng-submit="submit()">
                         <div layout="row" layout-margin>
                             <div flex="50">
                                 <h3>From</h3>
 
-                                <!--<div ng-include="'views/airport-autocomplete.html'"></div>-->
+                                <from-airport formname="oneWayFlightBookForm" formfieldname="twoWayFromAirport" selecteditem="selectedFrom" searchtext="fromAirport" floatinglabel="From Airport"></from-airport>
                                 <p style="text-align: right">Journey date</p>
 
                             </div>
                             <div flex="50">
                                 <h3>To </h3>
 
-                                <!--<div ng-include="'views/to-airport-autocomplete.html'"></div>-->
+                                <from-airport formname="oneWayFlightBookForm" formfieldname="twoWayToAirport" selecteditem="selectedTo" searchtext="toAirport" floatinglabel="To Airport"></from-airport>
                                 <md-datepicker ng-model="oneWayjourneyDate" md-placeholder="Enter journey date"
                                                md-min-date="oneWayMinDate"></md-datepicker>
                             </div>

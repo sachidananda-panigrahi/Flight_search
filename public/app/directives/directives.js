@@ -5,7 +5,8 @@ app.directive('fromAirport', function (allCities, $selectedAirport, $storeSearch
             formname: '=',
             formfieldname: '@',
             selecteditem: '=',
-            searchtext: '='
+            searchtext: '=',
+            floatinglabel: '@'
         },
         templateUrl: 'views/airport-autocomplete.html',
         link: function ($scope, element, attr, form) {
@@ -28,13 +29,10 @@ app.directive('fromAirport', function (allCities, $selectedAirport, $storeSearch
             function selectedItemChangeFrom(item) {
                 selectedAirportData[formFieldName] = item;
                 $selectedAirport.setSelected(selectedAirportData);
-                console.log('Item changed to ' + JSON.stringify(selectedAirportData));
-                console.log($selectedAirport.getSelected());
             }
 
             function loadAll() {
                 var allStates = allCities;
-                //console.log(allStates[0][0].name);
                 return allStates[0];
             }
 
