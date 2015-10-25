@@ -95,8 +95,9 @@ app.controller('mainController', function ($scope, $mdSidenav) {
     }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, allCities, $selectedAirport, $interval, $storeSearchAirports, $getSearchedFlightDetails) {
         var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected();
 
-        self.mode = 'query';
-        self.activated = true;
+        $scope.mode = ['query'];
+        $scope.activated = true;
+
         $scope.determinateValue = -10;
 
         $scope.toggleSidenav = function (menuId) {
@@ -115,7 +116,11 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             //$location.url('/home');
         }
         $getSearchedFlightDetails.then(function(res){
-            $scope.searchedFlightDetails = res;
+            console.log(res.people);
+            $scope.searchedFlightDetails= res;
+            //$scope.searchedFlightDetails= new Array(res);
+            $scope.modes = [];
+
         });
         $interval(function () {
             $scope.determinateValue += 3;
@@ -127,5 +132,9 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             // Show the indicator in the "Used within Containers" after 200ms delay
             if (j == 2) self.contained = "indeterminate";
         }, 100, 0, true);
+
+        $interval(function() {
+            self.mode = (self.mode == 'query' ? 'determinate' : 'query');
+        }, 7200, 0, true);
 
     });
