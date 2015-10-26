@@ -13,3 +13,16 @@
 .home-search-card{
     width: 50%;
 }
+.custom-table{
+    padding-top: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.custom-table div{
+    width: 20%;
+}
+.searched-flight-container .card-color{
+    background-color: rgb(3,169,244);
+    color: rgba(0,0,0,0.87);
+}

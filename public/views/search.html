@@ -12,26 +12,65 @@
         </div>
     </md-card>
 </form>
-<md-progress-linear md-mode="determinate" value="{{determinateValue}}"></md-progress-linear>
+<!--<md-progress-linear md-mode="determinate" value="{{determinateValue}}"></md-progress-linear>-->
+<!--
 
-<div ng-repeat="item in searchedFlightDetails.data.people">
 
-{{item}}
-
-    <md-card>
-        <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+<div class="custom-table " style="width: 97%; margin: 0 auto;">
+    <div><h4>Depart</h4></div>
+    <div><h4>Duration</h4></div>
+    <div><h4>Arrival</h4></div>
+    <div><h4>Airlines</h4></div>
+    <div><h4>Price</h4></div>
+</div>
+<md-input-container>
+    <label>Search</label>
+    <input ng-model="search">
+</md-input-container>
+<div class="searched-flight-container" ng-repeat="item in searchedFlightDetails.flights | filter:search">
+    <md-card class="card-color">
         <md-card-content>
-            <h2 class="md-title">Paracosm</h2>
-
-            <p>
-                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-            </p>
+            <div class="custom-table">
+                <div><span>{{item.depart}}</span></div>
+                <div><span>{{item.duration}}</span></div>
+                <div><span>{{item.arrival}}</span></div>
+                <div><span>{{item.airlines}}</span></div>
+                <div><span>{{item.price}}</span></div>
+            </div>
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
-            <md-button>Action 1</md-button>
-            <md-button>Action 2</md-button>
+            <md-button class="md-raised">Book</md-button>
         </div>
     </md-card>
+</div>-->
 
-</div>
+<md-data-table-toolbar>
+    <h2 class="md-title">Flights</h2>
+</md-data-table-toolbar>
+<md-input-container flex>
+    <label>Search</label>
+    <input ng-model="query.filter">
+</md-input-container>
+<md-data-table-container>
+    <table md-data-table md-row-select="selected" md-progress="deferred">
+        <thead md-order="query.order">
+        <tr>
+            <th name="Depart" order-by="depart"></th>
+            <th name="Duration" order-by="duration"></th>
+            <th name="Arrival"  order-by="arrival"></th>
+            <th name="Airlines"  order-by="airlines"></th>
+            <th numeric name="Price"  order-by="price"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr md-auto-select ng-click="showConfirm($event, flight)" ng-repeat="flight in searchedFlightDetails.flights | filter:query.filter | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+            <td>{{flight.depart}}</td>
+            <td>{{flight.duration}}</td>
+            <td>{{flight.arrival }}</td>
+            <td>{{flight.airlines }}</td>
+            <td>{{flight.price }}</td>
+        </tr>
+        </tbody>
+    </table>
+</md-data-table-container>
+<md-data-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{searchedFlightDetails.flights.length}}" ng-click="loadStuff()"></md-data-table-pagination>

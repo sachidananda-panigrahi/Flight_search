@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('flightApp', ['ngMaterial', 'ngRoute', 'ngResource', 'ngMessages', 'LocalStorageModule']);
+var app = angular.module('flightApp', ['md.data.table', 'ngMaterial', 'ngRoute', 'ngResource', 'ngMessages', 'LocalStorageModule']);
 
 app.config(function ($routeProvider, $locationProvider, $mdThemingProvider, localStorageServiceProvider) {
 

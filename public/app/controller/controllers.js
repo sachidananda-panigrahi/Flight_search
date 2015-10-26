@@ -16,7 +16,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         if (searchListArr != null) {
             if (searchListArr.length > 0) {
                 $scope.fromAirport = searchListArr[0].twoWayFromAirport.name;
-                if(searchListArr.length > 1){
+                if (searchListArr.length > 1) {
                     $scope.toAirport = searchListArr[1].twoWayToAirport.name;
                 }
 
@@ -43,7 +43,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             );
             $scope.maxRetDate = new Date(
                 $scope.returnDate.getFullYear(),
-                $scope.returnDate.getMonth() + 2,
+                    $scope.returnDate.getMonth() + 2,
                 $scope.returnDate.getDate()
             );
         };
@@ -55,7 +55,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             $scope.journeyDate.getDate());
         $scope.maxDate = new Date(
             $scope.journeyDate.getFullYear(),
-            $scope.journeyDate.getMonth() + 2,
+                $scope.journeyDate.getMonth() + 2,
             $scope.journeyDate.getDate());
 
         $scope.returnDate = new Date(
@@ -70,7 +70,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         );
         $scope.maxRetDate = new Date(
             $scope.returnDate.getFullYear(),
-            $scope.returnDate.getMonth() + 2,
+                $scope.returnDate.getMonth() + 2,
             $scope.returnDate.getDate()
         );
 
@@ -87,54 +87,67 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
 
         $scope.submit = function () {
-            $cities.post(searchListArr).success(function(res){
+            $cities.post(searchListArr).success(function (res) {
                 $location.url('/search');
             });
         }
 
-    }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, allCities, $selectedAirport, $interval, $storeSearchAirports, $getSearchedFlightDetails) {
-        var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected();
+    }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, $selectedAirport, $storeSearchAirports, $mdDialog, $getSearchedFlightDetails) {
+        var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected(), deferred = $q.defer();
 
         $scope.mode = ['query'];
         $scope.activated = true;
-
         $scope.determinateValue = -10;
-
+        $scope.deferred = deferred.promise;
+        $scope.status = '  ';
+        $scope.airports = airportList;
+        $scope.selected = [];
+        $scope.query = {
+            filter: '',
+            order: 'name',
+            limit: 5,
+            page: 1
+        };
+//Side nav bar
         $scope.toggleSidenav = function (menuId) {
             $mdSidenav(menuId).toggle();
         };
-
-        $scope.airports = airportList;
-        if(airportList.length > 0){
-            console.log("airportList before set localstorage");
-            console.log(airportList);
-            $storeSearchAirports.setSearchedList('searchedList',airportList);
+//Set searched List To Local Storage
+        if (airportList.length > 0) {
+            $storeSearchAirports.setSearchedList('searchedList', airportList);
         }
-
+//Set searchedList from local storage
         if ($scope.airports.length == 0) {
             $scope.airports = $storeSearchAirports.getSearchedList("searchedList");
-            //$location.url('/home');
         }
-        $getSearchedFlightDetails.then(function(res){
-            console.log(res.people);
-            $scope.searchedFlightDetails= res;
-            //$scope.searchedFlightDetails= new Array(res);
+//get Searched Flight Details
+        $getSearchedFlightDetails.then(function (res) {
+            console.log(res[0]);
+            $scope.searchedFlightDetails = res[0];
             $scope.modes = [];
-
+            deferred.resolve();
         });
-        $interval(function () {
-            $scope.determinateValue += 3;
-            if ($scope.determinateValue > 110) $scope.determinateValue = -10;
-            // Incrementally start animation the five (5) Indeterminate,
-            // themed progress circular bars
-
-            if (counter++ % 4 == 0) j++;
-            // Show the indicator in the "Used within Containers" after 200ms delay
-            if (j == 2) self.contained = "indeterminate";
-        }, 100, 0, true);
-
-        $interval(function() {
-            self.mode = (self.mode == 'query' ? 'determinate' : 'query');
-        }, 7200, 0, true);
+//Show Loader in data Table
+        $scope.loadStuff = function () {
+            $timeout(function () {
+                deferred.reject();
+            }, 1000);
+        };
+//Show alert popup
+        $scope.showConfirm = function(ev,data) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            var confirm = $mdDialog.confirm()
+                .title('Would you like to delete your debt?')
+                .content('All of the banks have agreed to <span class="debt-be-gone">forgive</span> you your debts.')
+                .ariaLabel('Lucky day')
+                .targetEvent(ev)
+                .ok('Please do it!')
+                .cancel('Sounds like a scam');
+            $mdDialog.show(confirm).then(function() {
+                $scope.status = 'You decided to get rid of your debt.';
+            }, function() {
+                $scope.status = 'You decided to keep your debt.';
+            });
+        };
 
     });

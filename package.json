@@ -8,6 +8,8 @@
     "dummy-json": "0.0.3",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
-    "qs": "^5.2.0"
+    "json-parser": "^1.1.0",
+    "qs": "^5.2.0",
+    "string": "^3.3.1"
   }
 }
