@@ -43,7 +43,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             );
             $scope.maxRetDate = new Date(
                 $scope.returnDate.getFullYear(),
-                    $scope.returnDate.getMonth() + 2,
+                $scope.returnDate.getMonth() + 2,
                 $scope.returnDate.getDate()
             );
         };
@@ -55,7 +55,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             $scope.journeyDate.getDate());
         $scope.maxDate = new Date(
             $scope.journeyDate.getFullYear(),
-                $scope.journeyDate.getMonth() + 2,
+            $scope.journeyDate.getMonth() + 2,
             $scope.journeyDate.getDate());
 
         $scope.returnDate = new Date(
@@ -70,7 +70,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         );
         $scope.maxRetDate = new Date(
             $scope.returnDate.getFullYear(),
-                $scope.returnDate.getMonth() + 2,
+            $scope.returnDate.getMonth() + 2,
             $scope.returnDate.getDate()
         );
 
@@ -99,7 +99,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         $scope.activated = true;
         $scope.determinateValue = -10;
         $scope.deferred = deferred.promise;
-        $scope.status = '  ';
+        $scope.status = [];
         $scope.airports = airportList;
         $scope.selected = [];
         $scope.query = {
@@ -133,20 +133,28 @@ app.controller('mainController', function ($scope, $mdSidenav) {
                 deferred.reject();
             }, 1000);
         };
+        $scope.$watch('selected.length', function () {
+            if($scope.selected.length == 1){
+                $scope.showConfirm(self, $scope.selected);
+            }
+        });
 //Show alert popup
-        $scope.showConfirm = function(ev,data) {
+        $scope.showConfirm = function (ev, data) {
             // Appending dialog to document.body to cover sidenav in docs app
+            console.log(data);
             var confirm = $mdDialog.confirm()
-                .title('Would you like to delete your debt?')
-                .content('All of the banks have agreed to <span class="debt-be-gone">forgive</span> you your debts.')
+                .title('Would you like to Book your ticket?')
+                .content('Book your ticket From '+ data[0].from + ' to '+ data[0].to +'. <div class="popup-container"><div><h5>From: '+data[0].from +' </h5></div> <div><h5>To: '+data[0].to +' </h5></div> <div><h5>Departs: '+data[0].depart +'</h5></div> <div><h5>Arrival: '+data[0].arrival +'</h5></div> <div><h5>Duration: '+data[0].duration +'</h5></div> <div><h5>Airlines: '+data[0].airlines +'</h5></div> <div><h5>Price: '+data[0].price +'</h5></div></div>')
                 .ariaLabel('Lucky day')
                 .targetEvent(ev)
-                .ok('Please do it!')
-                .cancel('Sounds like a scam');
-            $mdDialog.show(confirm).then(function() {
-                $scope.status = 'You decided to get rid of your debt.';
-            }, function() {
-                $scope.status = 'You decided to keep your debt.';
+                .ok('Confirm')
+                .cancel('Cancel');
+            $mdDialog.show(confirm).then(function () {
+                $scope.status = data[0];
+                $scope.selected = [];
+            }, function () {
+                $scope.status = [];
+                $scope.selected = [];
             });
         };
 

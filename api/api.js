@@ -72,7 +72,7 @@ router.use(bodyParser.json())
                     flightPartial: flightTemplate
                 };
 
-                template = '{ "flights": [{{#repeat 10000}}{{> flightPartial }}{{/repeat}}] }';
+                template = '{ "flights": [{{#repeat 100}}{{> flightPartial }}{{/repeat}}] }';
                 searchedFlightDetails = dummyJson.parse(template, {
                     partials: partials,
                     data: dummyData,

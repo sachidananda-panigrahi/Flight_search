@@ -12,37 +12,6 @@
         </div>
     </md-card>
 </form>
-<!--<md-progress-linear md-mode="determinate" value="{{determinateValue}}"></md-progress-linear>-->
-<!--
-
-
-<div class="custom-table " style="width: 97%; margin: 0 auto;">
-    <div><h4>Depart</h4></div>
-    <div><h4>Duration</h4></div>
-    <div><h4>Arrival</h4></div>
-    <div><h4>Airlines</h4></div>
-    <div><h4>Price</h4></div>
-</div>
-<md-input-container>
-    <label>Search</label>
-    <input ng-model="search">
-</md-input-container>
-<div class="searched-flight-container" ng-repeat="item in searchedFlightDetails.flights | filter:search">
-    <md-card class="card-color">
-        <md-card-content>
-            <div class="custom-table">
-                <div><span>{{item.depart}}</span></div>
-                <div><span>{{item.duration}}</span></div>
-                <div><span>{{item.arrival}}</span></div>
-                <div><span>{{item.airlines}}</span></div>
-                <div><span>{{item.price}}</span></div>
-            </div>
-        </md-card-content>
-        <div class="md-actions" layout="row" layout-align="end center">
-            <md-button class="md-raised">Book</md-button>
-        </div>
-    </md-card>
-</div>-->
 
 <md-data-table-toolbar>
     <h2 class="md-title">Flights</h2>
@@ -51,6 +20,9 @@
     <label>Search</label>
     <input ng-model="query.filter">
 </md-input-container>
+<md-data-table-toolbar class="alternate" ng-show="selected.length">
+    <div>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</div>
+</md-data-table-toolbar>
 <md-data-table-container>
     <table md-data-table md-row-select="selected" md-progress="deferred">
         <thead md-order="query.order">
@@ -63,7 +35,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr md-auto-select ng-click="showConfirm($event, flight)" ng-repeat="flight in searchedFlightDetails.flights | filter:query.filter | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+        <tr md-auto-select ng-repeat="flight in searchedFlightDetails.flights | filter:query.filter | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
             <td>{{flight.depart}}</td>
             <td>{{flight.duration}}</td>
             <td>{{flight.arrival }}</td>
