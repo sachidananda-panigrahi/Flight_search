@@ -15,10 +15,9 @@ var express = require('express'),
         depart: [],
         duration: [],
         arrival: [],
-        airline: ['Air India', 'IndiGo', 'Jet Airways', 'SpiceJet', 'AirAsia India', 'TruJet'],
         price: []
-    };
-var companies = ['Air India', 'IndiGo', 'Jet Airways', 'SpiceJet', 'AirAsia India', 'TruJet'];
+    },
+    companies = ['Air India', 'IndiGo', 'Jet Airways', 'SpiceJet', 'AirAsia India', 'TruJet'];
 
 router.use(bodyParser.json())
     .route('/cities')
@@ -28,9 +27,11 @@ router.use(bodyParser.json())
         });
     })
     .post(function (req, res) {
-        searchFlight.find({"twoWayFromAirport": {}}, function (err, data) {
+        var reqData = { flights: req.body};
+        searchFlight.find({"flights": {}}, function (err, data) {
+            console.log(data.length);
             if (data.length > 0) {
-                searchFlight.update({"twoWayFromAirport": {}}, req.body, function (err, data) {
+                searchFlight.update({"flights": {}}, reqData, function (err, data) {
                     if (err) {
                         console.log(err);
                         res.json(err);
@@ -39,7 +40,7 @@ router.use(bodyParser.json())
                     }
                 });
             } else {
-                searchFlight.insert(req.body, function (err, data) {
+                searchFlight.insert(reqData, function (err, data) {
                     if (err) {
                         console.log(err);
                         res.json(err);
@@ -60,18 +61,19 @@ router.use(bodyParser.json())
                 console.log(err);
                 res.json(err);
             } else {
+                console.log("data +++++++++++++++++++++++");
+                console.log(data[0].flights[0].twoWayFromAirport.name);
+                console.log(data[0].flights[1].twoWayToAirport.name);
+                console.log("data +++++++++++++++++++++++");
                 dummyData.boarding = [];
                 dummyData.destination = [];
-
-                dummyData.boarding.push(data[0][0].twoWayFromAirport.name);
-                dummyData.destination.push(data[0][1].twoWayToAirport.name);
+                dummyData.boarding.push(data[0].flights[0].twoWayFromAirport.name);
+                dummyData.destination.push(data[0].flights[1].twoWayToAirport.name);
                 console.log(dummyData);
                 flightTemplate = '{ "id": {{index}}, "from": "{{boarding}}", "to": "{{destination}}", "depart": "{{time}}", "arrival": "{{time}}", "duration": "{{time}}", "airlines": "{{company}}" , "price": "{{number 1500 10000}}" }';
-
                 partials = {
                     flightPartial: flightTemplate
                 };
-
                 template = '{ "flights": [{{#repeat 100}}{{> flightPartial }}{{/repeat}}] }';
                 searchedFlightDetails = dummyJson.parse(template, {
                     partials: partials,
@@ -79,7 +81,6 @@ router.use(bodyParser.json())
                     companies: companies
                 });
                 flightSearch.data.push(JSON.parse(searchedFlightDetails));
-
                 flightDet.find({"flights": {}}, function (err, data) {
                     if (data.length > 0) {
                         flightDet.update({"flights": {}}, flightSearch.data[0], function (err, data) {

@@ -26,7 +26,6 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
         function loadAll() {
             var allStates = allCities;
-            //console.log(allStates[0][0].name);
             return allStates[0];
         }
 
@@ -92,7 +91,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             });
         }
 
-    }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, $selectedAirport, $storeSearchAirports, $mdDialog, $getSearchedFlightDetails) {
+    }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, $selectedAirport, $storeSearchAirports, $mdDialog, $getSearchedFlightDetails, $cities) {
         var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected(), deferred = $q.defer();
 
         $scope.mode = ['query'];
@@ -108,6 +107,9 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             limit: 5,
             page: 1
         };
+
+        $scope.fromAirport = airportList[0].twoWayFromAirport.name;
+        $scope.toAirport = airportList[1].twoWayToAirport.name;
 //Side nav bar
         $scope.toggleSidenav = function (menuId) {
             $mdSidenav(menuId).toggle();
@@ -122,8 +124,8 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         }
 //get Searched Flight Details
         $getSearchedFlightDetails.then(function (res) {
-            console.log(res[0]);
-            $scope.searchedFlightDetails = res[0];
+            console.log(res.data[0]);
+            $scope.searchedFlightDetails = res.data[0];
             $scope.modes = [];
             deferred.resolve();
         });
@@ -157,5 +159,20 @@ app.controller('mainController', function ($scope, $mdSidenav) {
                 $scope.selected = [];
             });
         };
-
+//Get list of Airports
+        function loadAll() {
+            var allStates = allCities;
+            return allStates[0];
+        }
+//        Submit
+        $scope.submit = function () {
+            $cities.post(airportList).success(function (res) {
+                $getSearchedFlightDetails.then(function (res) {
+                    console.log(res.data[0]);
+                    $scope.searchedFlightDetails = res.data[0];
+                    $scope.modes = [];
+                    deferred.resolve();
+                });
+            });
+        }
     });

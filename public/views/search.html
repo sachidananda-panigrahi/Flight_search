@@ -1,14 +1,22 @@
-<form name="searchForm">
+<form name="searchForm" ng-submit="submit()">
     <md-card>
         <md-card-content>
             <h2 class="md-title">Search Flight</h2>
 
-            <div ng-repeat="airport in airports">
-                <div>{{airport}}</div>
-            </div>
+                <div layout="row" layout-margin>
+                    <div flex="50">
+                        <h3>From</h3>
+                        <from-airport formname="searchForm" formfieldname="twoWayFromAirport" selecteditem="selectedFrom" searchtext="fromAirport" floatinglabel="From Airport"></from-airport>
+                    </div>
+                    <div flex="50">
+                        <h3>To </h3>
+                        <from-airport formname="searchForm" formfieldname="twoWayToAirport" selecteditem="selectedTo" searchtext="toAirport" floatinglabel="To Airport"></from-airport>
+                    </div>
+                </div>
+
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
-            <md-button class="md-raised md-primary" ng-click="submit()">Search</md-button>
+            <md-button class="md-raised md-primary" ng-disabled="searchForm.$invalid">Search</md-button>
         </div>
     </md-card>
 </form>

@@ -59,12 +59,11 @@ app.service('InitService', ['$q', function ($q) {
 
 
 }).service('$getSearchedFlightDetails', function ($http, $q) {
-    var d = $q.defer();
-
-    $http.get('/api/search').success(function (res) {
-        d.resolve(res)
-    }).error(function (err) {
-        d.reject(err);
+    var d = $q.defer(), config = {cache: false};
+    $http({method: 'GET', url: '/api/search', cache: false}).then(function(response) {
+        d.resolve(response);
+    }, function(response) {
+        d.reject(response);
     });
 
     return d.promise;
