@@ -28,17 +28,26 @@ router.use(bodyParser.json())
     })
     .post(function (req, res) {
         var reqData = { flights: req.body};
+        console.log(req.body);
         searchFlight.find({"flights": {}}, function (err, data) {
             console.log(data.length);
+            console.log(data);
+            console.log(data[0].flights[0].twoWayFromAirport.name);
+            console.log(data[0].flights[1].twoWayToAirport.name);
             if (data.length > 0) {
                 searchFlight.update({"flights": {}}, reqData, function (err, data) {
                     if (err) {
                         console.log(err);
                         res.json(err);
                     } else {
+                        console.log(data.length);
+                        console.log(data);
+                        console.log(data[0].flights[0].twoWayFromAirport.name);
+                        console.log(data[0].flights[1].twoWayToAirport.name);
                         res.json(data);
                     }
                 });
+
             } else {
                 searchFlight.insert(reqData, function (err, data) {
                     if (err) {
@@ -56,12 +65,13 @@ router.use(bodyParser.json())
     .route('/search')
     .get(function (req, res) {
         var searchedFlightDetails = {}, flightTemplate, flightSearch = {data: []}, partials, template;
-        searchFlight.find({}, function (err, data) {
+        searchFlight.find({"flights": {}}, function (err, data) {
             if (err) {
                 console.log(err);
                 res.json(err);
             } else {
                 console.log("data +++++++++++++++++++++++");
+                console.log(data);
                 console.log(data[0].flights[0].twoWayFromAirport.name);
                 console.log(data[0].flights[1].twoWayToAirport.name);
                 console.log("data +++++++++++++++++++++++");

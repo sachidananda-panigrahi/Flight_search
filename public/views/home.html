@@ -2,14 +2,11 @@
     <md-card class="home-search-card">
         <md-card-content>
             <h2 class="md-title">Search Flight</h2>
-            <md-tabs md-dynamic-height md-border-bottom>
+            <md-tabs md-dynamic-height md-border-bottom  md-selected="selectedIndex">
                 <md-tab label="Round Way Trip">
                     <form name="flightBookForm" ng-submit="submit()">
                         <div layout="row" layout-margin>
                             <div flex="50">
-                                <h3>From</h3>
-
-
                                 <from-airport formname="flightBookForm" formfieldname="twoWayFromAirport" selecteditem="selectedFrom" searchtext="fromAirport" floatinglabel="From Airport"></from-airport>
 
                                 <md-datepicker ng-change="dateChange()" ng-model="journeyDate"
@@ -17,8 +14,6 @@
                                                md-max-date="maxDate"></md-datepicker>
                             </div>
                             <div flex="50">
-                                <h3>To </h3>
-
                                 <from-airport formname="flightBookForm" formfieldname="twoWayToAirport" selecteditem="selectedTo" searchtext="toAirport" floatinglabel="To Airport"></from-airport>
 
                                 <md-datepicker ng-model="returnDate" md-placeholder="Enter return date"
@@ -35,15 +30,11 @@
                     <form name="oneWayFlightBookForm" ng-submit="submit()">
                         <div layout="row" layout-margin>
                             <div flex="50">
-                                <h3>From</h3>
-
                                 <from-airport formname="oneWayFlightBookForm" formfieldname="twoWayFromAirport" selecteditem="selectedFrom" searchtext="fromAirport" floatinglabel="From Airport"></from-airport>
                                 <p style="text-align: right">Journey date</p>
 
                             </div>
                             <div flex="50">
-                                <h3>To </h3>
-
                                 <from-airport formname="oneWayFlightBookForm" formfieldname="twoWayToAirport" selecteditem="selectedTo" searchtext="toAirport" floatinglabel="To Airport"></from-airport>
                                 <md-datepicker ng-model="oneWayjourneyDate" md-placeholder="Enter journey date"
                                                md-min-date="oneWayMinDate"></md-datepicker>

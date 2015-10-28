@@ -6,7 +6,8 @@ app.directive('fromAirport', function (allCities, $selectedAirport, $storeSearch
             formfieldname: '@',
             selecteditem: '=',
             searchtext: '=',
-            floatinglabel: '@'
+            floatinglabel: '@',
+            isdisabled: '='
         },
         templateUrl: 'views/airport-autocomplete.html',
         link: function ($scope, element, attr, form) {
@@ -17,7 +18,6 @@ app.directive('fromAirport', function (allCities, $selectedAirport, $storeSearch
             $scope.selectedTo = null;
             $scope.searchTextFrom = null;
             $scope.searchTextTo = null;
-
             $scope.selectedItemChangeFrom = selectedItemChangeFrom;
             $scope.searchTextChangeFrom = searchTextChangeFrom;
 

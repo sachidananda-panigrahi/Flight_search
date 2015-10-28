@@ -5,7 +5,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 })
     .controller('homeController', function ($scope, $rootScope, $location, $timeout, $q, allCities, $selectedAirport, $storeSearchAirports, $cities) {
         var self = this,
-            searchListArr = [];
+            searchListArr = [], selectedDate = [], isOneWay = [];
 
 
         $scope.fromAirport = null;
@@ -29,6 +29,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             return allStates[0];
         }
 
+//        Date Picker
         $scope.dateChange = function () {
             $scope.returnDate = new Date(
                 $scope.journeyDate.getFullYear(),
@@ -46,7 +47,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
                 $scope.returnDate.getDate()
             );
         };
-
+//        Date Picker Journey Date
         $scope.journeyDate = new Date();
         $scope.minDate = new Date(
             $scope.journeyDate.getFullYear(),
@@ -56,7 +57,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             $scope.journeyDate.getFullYear(),
             $scope.journeyDate.getMonth() + 2,
             $scope.journeyDate.getDate());
-
+//        Date Picker Return Date
         $scope.returnDate = new Date(
             $scope.journeyDate.getFullYear(),
             $scope.journeyDate.getMonth(),
@@ -72,7 +73,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             $scope.returnDate.getMonth() + 2,
             $scope.returnDate.getDate()
         );
-
+//        Date Picker One Way Journey Date
         $scope.oneWayjourneyDate = new Date(
             $scope.journeyDate.getFullYear(),
             $scope.journeyDate.getMonth(),
@@ -86,6 +87,12 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
 
         $scope.submit = function () {
+            console.log($scope.journeyDate);
+            console.log($scope.returnDate);
+            console.log($scope.oneWayjourneyDate);
+            console.log($scope.selectedIndex);
+
+            searchListArr = $selectedAirport.getSelected();
             $cities.post(searchListArr).success(function (res) {
                 $location.url('/search');
             });
@@ -94,6 +101,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
     }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, $selectedAirport, $storeSearchAirports, $mdDialog, $getSearchedFlightDetails, $cities) {
         var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected(), deferred = $q.defer();
 
+        $scope.searchedFlightDetails = [];
         $scope.mode = ['query'];
         $scope.activated = true;
         $scope.determinateValue = -10;
@@ -118,7 +126,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         if (airportList.length > 0) {
             $storeSearchAirports.setSearchedList('searchedList', airportList);
         }
-//Set searchedList from local storage
+//Get searchedList from local storage
         if ($scope.airports.length == 0) {
             $scope.airports = $storeSearchAirports.getSearchedList("searchedList");
         }
@@ -166,6 +174,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         }
 //        Submit
         $scope.submit = function () {
+            $scope.searchedFlightDetails = [];
             $cities.post(airportList).success(function (res) {
                 $getSearchedFlightDetails.then(function (res) {
                     console.log(res.data[0]);
