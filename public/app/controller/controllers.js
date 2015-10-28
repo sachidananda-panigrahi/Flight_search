@@ -2,6 +2,12 @@ app.controller('mainController', function ($scope, $mdSidenav) {
     $scope.toggleSidenav = function (menuId) {
         $mdSidenav(menuId).toggle();
     };
+    $scope.close = function (menuId) {
+        $mdSidenav(menuId).close()
+            .then(function () {
+                console.log("close "+ menuId +" is done");
+            });
+    };
 })
     .controller('homeController', function ($scope, $rootScope, $location, $timeout, $q, allCities, $selectedAirport, $storeSearchAirports, $cities) {
         var self = this,
@@ -118,10 +124,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
         $scope.fromAirport = airportList[0].twoWayFromAirport.name;
         $scope.toAirport = airportList[1].twoWayToAirport.name;
-//Side nav bar
-        $scope.toggleSidenav = function (menuId) {
-            $mdSidenav(menuId).toggle();
-        };
+
 //Set searched List To Local Storage
         if (airportList.length > 0) {
             $storeSearchAirports.setSearchedList('searchedList', airportList);
