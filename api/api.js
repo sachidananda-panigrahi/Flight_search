@@ -15,7 +15,9 @@ var express = require('express'),
         depart: [],
         duration: [],
         arrival: [],
-        price: []
+        minPrice: null,
+        maxPrice: null,
+        persons: []
     },
     companies = ['Air India', 'IndiGo', 'Jet Airways', 'SpiceJet', 'AirAsia India', 'TruJet'];
 
@@ -70,17 +72,23 @@ router.use(bodyParser.json())
                 console.log(err);
                 res.json(err);
             } else {
-                console.log("data +++++++++++++++++++++++");
-                console.log(data);
-                console.log(data[0].flights[0].twoWayFromAirport.name);
-                console.log(data[0].flights[1].twoWayToAirport.name);
-                console.log("data +++++++++++++++++++++++");
+
                 dummyData.boarding = [];
                 dummyData.destination = [];
+                dummyData.minPrice = null;
+                dummyData.maxPrice = null;
                 dummyData.boarding.push(data[0].flights[0].twoWayFromAirport.name);
                 dummyData.destination.push(data[0].flights[1].twoWayToAirport.name);
+                if(data[0].flights[2][1].selectedIndex == 0){
+                    dummyData.minPrice = (5000*2*(parseInt(data[0].flights[2][2].passengers)));
+                    dummyData.maxPrice = (15000*2*(parseInt(data[0].flights[2][2].passengers)));
+                }else{
+                    dummyData.minPrice = (5000*1*(parseInt(data[0].flights[2][2].passengers)));
+                    dummyData.maxPrice = (10000*1*(parseInt(data[0].flights[2][2].passengers)));
+                }
+                console.log("dummyData");
                 console.log(dummyData);
-                flightTemplate = '{ "id": {{index}}, "from": "{{boarding}}", "to": "{{destination}}", "depart": "{{time}}", "arrival": "{{time}}", "duration": "{{time}}", "airlines": "{{company}}" , "price": "{{number 1500 10000}}" }';
+                flightTemplate = '{ "id": {{index}}, "from": "{{boarding}}", "to": "{{destination}}", "depart": "{{time}}", "arrival": "{{time}}", "duration": "{{time}}", "airlines": "{{company}}" , "price": "{{number minPrice maxPrice}}" }';
                 partials = {
                     flightPartial: flightTemplate
                 };

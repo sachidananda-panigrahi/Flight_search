@@ -20,6 +20,19 @@
                                                md-min-date="minRetDate" md-max-date="maxRetDate"></md-datepicker>
                             </div>
                         </div>
+                        <md-input-container>
+                            <label>Select Passengers</label>
+                            <md-select name="passengers" ng-model="passengers" required>
+                                <md-option value="1">One</md-option>
+                                <md-option value="2">Two</md-option>
+                                <md-option value="3">Three</md-option>
+                                <md-option value="4">Four</md-option>
+                                <md-option value="5">Five</md-option>
+                            </md-select>
+                            <div class="errors" ng-messages="flightBookForm.passengers.$error" ng-if="flightBookForm.$dirty">
+                                <div ng-message="required">Required</div>
+                            </div>
+                        </md-input-container>
                         <div class="md-actions" layout="row" layout-align="end center">
                             <md-button class="md-raised md-primary" ng-disabled="flightBookForm.$invalid">Search</md-button>
                         </div>
@@ -31,7 +44,19 @@
                         <div layout="row" layout-margin>
                             <div flex="50">
                                 <from-airport formname="oneWayFlightBookForm" formfieldname="twoWayFromAirport" selecteditem="selectedFrom" searchtext="fromAirport" floatinglabel="From Airport"></from-airport>
-                                <p style="text-align: right">Journey date</p>
+                                <md-input-container>
+                                    <label>Select Passengers</label>
+                                    <md-select name="passengers" ng-model="passengers" required>
+                                        <md-option value="1">One</md-option>
+                                        <md-option value="2">Two</md-option>
+                                        <md-option value="3">Three</md-option>
+                                        <md-option value="4">Four</md-option>
+                                        <md-option value="5">Five</md-option>
+                                    </md-select>
+                                    <div class="errors" ng-messages="oneWayFlightBookForm.passengers.$error" ng-if="oneWayFlightBookForm.$dirty">
+                                        <div ng-message="required">Required</div>
+                                    </div>
+                                </md-input-container>
 
                             </div>
                             <div flex="50">

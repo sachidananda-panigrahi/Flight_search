@@ -11,7 +11,7 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 })
     .controller('homeController', function ($scope, $rootScope, $location, $timeout, $q, allCities, $selectedAirport, $storeSearchAirports, $cities) {
         var self = this,
-            searchListArr = [], selectedDate = [], isOneWay = [];
+            searchListArr = [], selectedDate = {}, isOneWay = {}, passengerList = {}, searchDetArray = [];
 
 
         $scope.fromAirport = null;
@@ -93,19 +93,34 @@ app.controller('mainController', function ($scope, $mdSidenav) {
 
 
         $scope.submit = function () {
-            console.log($scope.journeyDate);
-            console.log($scope.returnDate);
-            console.log($scope.oneWayjourneyDate);
-            console.log($scope.selectedIndex);
+            selectedDate = {
+                journeyDate: $scope.journeyDate,
+                returnDate: $scope.returnDate,
+                oneWayJourneyDate: $scope.oneWayjourneyDate
 
+            };
+            isOneWay = {
+                selectedIndex: $scope.selectedIndex
+            };
+            passengerList = {
+                passengers: $scope.passengers
+            };
+            searchDetArray.push(selectedDate);
+            searchDetArray.push(isOneWay);
+            searchDetArray.push(passengerList);
+            $selectedAirport.setSelected(searchDetArray);
             searchListArr = $selectedAirport.getSelected();
+            //Set searched List To Local Storage
+            if (searchListArr.length > 0) {
+                $storeSearchAirports.setSearchedList('searchedList', searchListArr);
+            }
             $cities.post(searchListArr).success(function (res) {
                 $location.url('/search');
             });
         }
 
     }).controller('searchController', function ($scope, $rootScope, $location, $timeout, $q, $mdSidenav, $selectedAirport, $storeSearchAirports, $mdDialog, $getSearchedFlightDetails, $cities) {
-        var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected(), deferred = $q.defer();
+        var self = this, j = 0, counter = 0, airportList = $selectedAirport.getSelected(), deferred = $q.defer(), selectedDate = {}, isOneWay = {}, passengerList = {}, searchDetArray = [];
 
         $scope.searchedFlightDetails = [];
         $scope.mode = ['query'];
@@ -121,14 +136,40 @@ app.controller('mainController', function ($scope, $mdSidenav) {
             limit: 5,
             page: 1
         };
-
+        console.log("airportList");
+        console.log(airportList);
+        console.log(airportList[2][0].journeyDate);
         $scope.fromAirport = airportList[0].twoWayFromAirport.name;
         $scope.toAirport = airportList[1].twoWayToAirport.name;
+        $scope.passengers = airportList[2][2].passengers;
 
-//Set searched List To Local Storage
-        if (airportList.length > 0) {
-            $storeSearchAirports.setSearchedList('searchedList', airportList);
-        }
+//        Date Picker Journey Date
+        $scope.journeyDate = new Date(airportList[2][0].journeyDate || airportList[2][0].oneWayJourneyDate);
+        $scope.minDate = new Date(
+            $scope.journeyDate.getFullYear(),
+            $scope.journeyDate.getMonth(),
+            $scope.journeyDate.getDate());
+        $scope.maxDate = new Date(
+            $scope.journeyDate.getFullYear(),
+                $scope.journeyDate.getMonth() + 2,
+            $scope.journeyDate.getDate());
+//        Date Picker Return Date
+        $scope.returnDate = new Date(
+            $scope.journeyDate.getFullYear(),
+            $scope.journeyDate.getMonth(),
+            $scope.journeyDate.getDate()
+        );
+        $scope.minRetDate = new Date(
+            $scope.journeyDate.getFullYear(),
+            $scope.journeyDate.getMonth(),
+            $scope.journeyDate.getDate()
+        );
+        $scope.maxRetDate = new Date(
+            $scope.returnDate.getFullYear(),
+                $scope.returnDate.getMonth() + 2,
+            $scope.returnDate.getDate()
+        );
+
 //Get searchedList from local storage
         if ($scope.airports.length == 0) {
             $scope.airports = $storeSearchAirports.getSearchedList("searchedList");
@@ -177,7 +218,24 @@ app.controller('mainController', function ($scope, $mdSidenav) {
         }
 //        Submit
         $scope.submit = function () {
-            $scope.searchedFlightDetails = [];
+//            $scope.searchedFlightDetails = [];
+            selectedDate = {
+                journeyDate: $scope.journeyDate,
+                returnDate: $scope.returnDate
+
+            };
+            passengerList = {
+                passengers: $scope.passengers
+            };
+
+            searchDetArray.push(selectedDate);
+            searchDetArray.push(passengerList);
+            $selectedAirport.setSelected(searchDetArray);
+            airportList = $selectedAirport.getSelected();
+            //Set searched List To Local Storage
+            if (airportList.length > 0) {
+                $storeSearchAirports.setSearchedList('searchedList', airportList);
+            }
             $cities.post(airportList).success(function (res) {
                 $getSearchedFlightDetails.then(function (res) {
                     console.log(res.data[0]);

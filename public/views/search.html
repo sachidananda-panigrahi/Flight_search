@@ -6,11 +6,34 @@
                 <div layout="row" layout-margin>
                     <div flex="50">
                         <from-airport formname="searchForm" formfieldname="twoWayFromAirport" selecteditem="selectedFrom" searchtext="fromAirport" floatinglabel="From Airport" isdisabled="true"></from-airport>
+                        <md-datepicker ng-change="dateChange()" ng-model="journeyDate"
+                                       md-placeholder="Enter journey date" md-min-date="minDate"
+                                       md-max-date="maxDate"></md-datepicker>
                     </div>
                     <div flex="50">
                         <from-airport formname="searchForm" formfieldname="twoWayToAirport" selecteditem="selectedTo" searchtext="toAirport" floatinglabel="To Airport" isdisabled="true"></from-airport>
+                        <md-datepicker ng-model="returnDate" md-placeholder="Enter return date"
+                                       md-min-date="minRetDate" md-max-date="maxRetDate"></md-datepicker>
                     </div>
+
                 </div>
+            <div layout="row" layout-margin>
+                <div flex="100">
+                    <md-input-container>
+                        <label>Select Passengers</label>
+                        <md-select name="passengers" ng-model="passengers" required>
+                            <md-option value="1">One</md-option>
+                            <md-option value="2">Two</md-option>
+                            <md-option value="3">Three</md-option>
+                            <md-option value="4">Four</md-option>
+                            <md-option value="5">Five</md-option>
+                        </md-select>
+                        <div class="errors" ng-messages="flightBookForm.passengers.$error" ng-if="flightBookForm.$dirty">
+                            <div ng-message="required">Required</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
 
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
