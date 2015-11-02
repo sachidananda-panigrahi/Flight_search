@@ -72,19 +72,21 @@ router.use(bodyParser.json())
                 console.log(err);
                 res.json(err);
             } else {
-
+                console.log("data+++++++++++++++++++++++");
+                console.log(data[0].flights[2].isOneWay.selectedIndex);
+                console.log("data+++++++++++++++++++++++");
                 dummyData.boarding = [];
                 dummyData.destination = [];
                 dummyData.minPrice = null;
                 dummyData.maxPrice = null;
                 dummyData.boarding.push(data[0].flights[0].twoWayFromAirport.name);
                 dummyData.destination.push(data[0].flights[1].twoWayToAirport.name);
-                if(data[0].flights[2][1].selectedIndex == 0){
-                    dummyData.minPrice = (5000*2*(parseInt(data[0].flights[2][2].passengers)));
-                    dummyData.maxPrice = (15000*2*(parseInt(data[0].flights[2][2].passengers)));
+                if(data[0].flights[2].isOneWay.selectedIndex == 0){
+                    dummyData.minPrice = (5000*2*(parseInt(data[0].flights[2].passengerList.passengers)));
+                    dummyData.maxPrice = (15000*2*(parseInt(data[0].flights[2].passengerList.passengers)));
                 }else{
-                    dummyData.minPrice = (5000*1*(parseInt(data[0].flights[2][2].passengers)));
-                    dummyData.maxPrice = (10000*1*(parseInt(data[0].flights[2][2].passengers)));
+                    dummyData.minPrice = (5000*1*(parseInt(data[0].flights[2].passengerList.passengers)));
+                    dummyData.maxPrice = (10000*1*(parseInt(data[0].flights[2].passengerList.passengers)));
                 }
                 console.log("dummyData");
                 console.log(dummyData);

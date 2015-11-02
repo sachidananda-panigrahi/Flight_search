@@ -5,8 +5,8 @@ app.config(function ($routeProvider, $locationProvider, $mdThemingProvider, loca
 
 //    Theme
     $mdThemingProvider.theme('default')
-        .primaryPalette('purple')
-        .accentPalette('light-blue')
+        .primaryPalette('light-green')
+        .accentPalette('pink')
         .warnPalette('red')
         .backgroundPalette('grey');
 //    Storage
